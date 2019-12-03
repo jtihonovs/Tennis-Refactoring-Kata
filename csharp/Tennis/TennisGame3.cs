@@ -1,3 +1,5 @@
+using System;
+
 namespace Tennis
 {
     public class TennisGame3 : ITennisGame
@@ -16,18 +18,18 @@ namespace Tennis
         public string GetScore()
         {
             string s;
-            if ((p1 < 4 && p2 < 4) && (p1 + p2 < 6))
+            if (this.checkIfNotMatchPoint())
             {
                 string[] p = { "Love", "Fifteen", "Thirty", "Forty" };
                 s = p[p1];
-                return (p1 == p2) ? s + "-All" : s + "-" + p[p2];
+                return this.checkIfEqual() ? s + "-All" : s + "-" + p[p2];
             }
             else
             {
-                if (p1 == p2)
+                if (this.checkIfEqual())
                     return "Deuce";
                 s = p1 > p2 ? p1N : p2N;
-                return ((p1 - p2) * (p1 - p2) == 1) ? "Advantage " + s : "Win for " + s;
+                return (Math.Abs(p1 - p2) == 1) ? "Advantage " + s : "Win for " + s;
             }
         }
 
@@ -38,7 +40,16 @@ namespace Tennis
             else
                 this.p2 += 1;
         }
+        
+        public bool checkIfNotMatchPoint()
+        {
+            return (p1 < 4 && p2 < 4) && (p1 + p2 < 6);
+        }
 
+        public bool checkIfEqual()
+        {
+            return p1 == p2;
+        }
     }
 }
 
